@@ -130,7 +130,7 @@ jobs:
     needs: compile
     outputs:
       url: ${{ steps.print-output.outputs.url }}
-    runs-on: [self-hosted, x86]
+    runs-on: [x86]
     steps:
       - name: "Print output"
         id: print-output
