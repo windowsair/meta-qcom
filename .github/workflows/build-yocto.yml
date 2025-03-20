@@ -7,7 +7,7 @@ on:
       - 'assets/**'
 env:
   CACHE_DIR: /home/runner/quic-yocto
-  KAS_REPO_REF_DIR: /srv/gh-runners/quic-yocto/kas-mirrors
+  KAS_REPO_REF_DIR: /home/runner/quic-yocto/kas-mirrors
 
 jobs:
   kas-lock:
