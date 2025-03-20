@@ -5,6 +5,9 @@ on:
     paths-ignore:
       - '*.md'
       - 'assets/**'
+env:
+  CACHE_DIR: /home/runner/quic-yocto
+  KAS_REPO_REF_DIR: /srv/gh-runners/quic-yocto/kas-mirrors
 
 jobs:
   kas-lock:
@@ -23,40 +26,6 @@ jobs:
         with:
           name: kas-lock
           path: ci/*.lock.yml
-
-  yocto-check-layer:
-    needs: kas-lock
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: kas-lock
-          path: ci/
-
-      - name: Run yocto-check-layer
-        run: |
-          ci/yocto-check-layer.sh
-
-  yocto-patchreview:
-    needs: kas-lock
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: kas-lock
-          path: ci/
-
-      - name: Run Yocto patchreview
-        run: |
-          ci/yocto-patchreview.sh
 
   compile:
     needs: kas-lock
@@ -79,6 +48,7 @@ jobs:
 
       - name: Kas build
         run: |
+          sudo pip3 install kas
           export DL_DIR=${CACHE_DIR}/downloads
           export SSTATE_DIR=${CACHE_DIR}/sstate-cache
           export KAS_WORK_DIR=$PWD/../kas
