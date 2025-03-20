@@ -1,11 +1,10 @@
 name: Build Yocto
 
 on:
-  workflow_call:
-    outputs:
-      artifacts_url:
-        description: "URL to retrieve build artifacts"
-        value: ${{ jobs.create-output.outputs.url }}
+  push:
+    paths-ignore:
+      - '*.md'
+      - 'assets/**'
 
 env:
   CACHE_DIR: /srv/gh-runners/quic-yocto
@@ -14,8 +13,7 @@ env:
 
 jobs:
   kas-lock:
-    if: github.repository == 'qualcomm-linux/meta-qcom'
-    runs-on: [self-hosted, x86]
+    runs-on: [x86]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,8 +30,7 @@ jobs:
 
   yocto-check-layer:
     needs: kas-lock
-    if: github.repository == 'qualcomm-linux/meta-qcom'
-    runs-on: [self-hosted, x86]
+    runs-on: [x86]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,8 +47,7 @@ jobs:
 
   yocto-patchreview:
     needs: kas-lock
-    if: github.repository == 'qualcomm-linux/meta-qcom'
-    runs-on: [self-hosted, x86]
+    runs-on: [x86]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -68,18 +64,12 @@ jobs:
 
   compile:
     needs: kas-lock
-    if: github.repository == 'qualcomm-linux/meta-qcom'
     strategy:
       fail-fast: true
       matrix:
         machine:
-          - qcm6490-idp
-          - qcs6490-rb3gen2-core-kit
-          - qcs9100-ride-sx
-          - qrb2210-rb1-core-kit
           - qcom-armv8a
-          - qcom-armv7a
-    runs-on: [self-hosted, x86]
+    runs-on: [x86]
     name: ${{ matrix.machine }}/poky/systemd
     steps:
       - uses: actions/checkout@v4
