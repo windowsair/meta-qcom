@@ -13,7 +13,7 @@ env:
 
 jobs:
   kas-lock:
-    runs-on: [x86]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,7 +30,7 @@ jobs:
 
   yocto-check-layer:
     needs: kas-lock
-    runs-on: [x86]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -47,7 +47,7 @@ jobs:
 
   yocto-patchreview:
     needs: kas-lock
-    runs-on: [x86]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,7 +69,7 @@ jobs:
       matrix:
         machine:
           - qcom-armv8a
-    runs-on: [x86]
+    runs-on: ubuntu-latest
     name: ${{ matrix.machine }}/poky/systemd
     steps:
       - uses: actions/checkout@v4
@@ -130,7 +130,7 @@ jobs:
     needs: compile
     outputs:
       url: ${{ steps.print-output.outputs.url }}
-    runs-on: [x86]
+    runs-on: ubuntu-latest
     steps:
       - name: "Print output"
         id: print-output
