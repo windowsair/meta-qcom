@@ -48,7 +48,7 @@ jobs:
 
       - name: Kas build
         run: |
-          sudo pip3 install kas
+          sudo pip3 install kas websockets
           sudo apt-get -y install chrpath diffstat
           export DL_DIR=${CACHE_DIR}/downloads
           export SSTATE_DIR=${CACHE_DIR}/sstate-cache
